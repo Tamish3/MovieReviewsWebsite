@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title>Top Movies</title>
+	<style>
+        h2 {background-color: darkred; color: yellow}
+        html {background-color: darkred;}
+        fieldset {
+            background-color: burlywood;
+            border-color: black;
+            opacity: 80%;
+            padding-top: 0px;
+            width: fit-content;
+            margin: auto;
+            font-size: 1.25rem;
+        }
+		#score {width: 1.5rem;}
+		hr {border-color: brown;}
+		#home {text-align: center;}
+		a:link {color: yellow;}
+		a:visited {color: darkorange;}
+    </style>
+</head>
+
+<body>
+		<fieldset>
+			<legend><h2>&nbsp;Top Movies&nbsp;</h2></legend>
+			<%- movieTable %>
+           <br><br>
+		</fieldset>
+
+		<br>
+    <hr>
+    <div id="home"><a href="/">HOME</a></div>
+</body>
+
+</html>

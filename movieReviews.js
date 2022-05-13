@@ -59,7 +59,6 @@ app.set("view engine", "ejs");
 http.createServer(app).listen(5000);
 
 app.get("/", async (request, response) => {
-    //await getTopMovies();
     response.type('.html')
     response.render("index");
 });
@@ -88,6 +87,31 @@ app.post("/movieDetails", async (request, response) => {
         response.type('.html');
         response.render("details", foundMovie);
     }
+});
+
+app.get("/topMovies", async (request, response) => {
+    response.type('.html')
+    let topMovies = await getTopMovies();
+    console.log(topMovies);
+    let movieTable = `<table border="1">
+    <tr>
+        <th>Title</th>
+        <th>Release Date</th>
+        <th>Score</th>
+    </tr>`;
+
+    topMovies.forEach(movie => movieTable +=
+        `<tr>
+            <td>${movie.title}</td>
+            <td>${movie.release_date}</td>
+            <td>${movie.vote_average}</td>
+        </tr>`);
+    movieTable += '</table>';
+
+    let topList = {
+        movieTable: movieTable
+    }
+    response.render("topMovies", topList);
 });
 
 // app.post("") {
