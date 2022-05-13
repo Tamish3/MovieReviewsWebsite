@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8" />
-	<title>Submit Review</title>
+	<title>Delete Review</title>
 	<style>
         h2 {background-color: darkred; color: yellow}
         html {background-color: darkred;}
@@ -25,16 +25,14 @@
 </head>
 
 <body>
-	<form action="/confirmReview" method="post" onsubmit="return confirm('Are you sure you want to submit your review?')">
+	<form action="/confirmDelete" method="post" onsubmit="return confirm('Are you sure you want to delete your review?')">
 		<fieldset>
-			<legend><h2>&nbsp;Submit Review&nbsp;</h2></legend>
+			<legend><h2>&nbsp;Delete Review&nbsp;</h2></legend>
 			<label><strong>Reviewer Name:</strong> <input type="text" name="name"/></label><br>
-			<label><strong>Film Title:</strong> <input type="text" name="title"></label>
-            <label><strong>Score:</strong> <input id="score" type="text" name="score"/></label><br><br>
-			<label><strong>Review</strong></label><br>
-            <textarea rows="5" cols="80" name="review"></textarea><br><br>
+			<label><strong>Film Title:</strong> <input type="text" name="title"></label><br><br>
+           
 			<input type="reset" />
-			<input type="submit" value="Submit Review"/>
+			<input type="submit" value="Delete Review"/>
 		</fieldset>
 
 		<br>
