@@ -38,6 +38,18 @@ async function getTopMovies(page = 1) {
     return data
 }
 
+async function getMovie(title) {
+    let data = []
+    try {
+        const response = await axios.get(`${config.api_base_url}search/movie?api_key=${config.api_key}&query=${title}&page=1`)
+        const responseData = await response.data
+        data = responseData?.results
+    } catch (error) {
+        console.log(error);
+    }
+    return data[0]
+}
+
 let app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -47,14 +59,35 @@ app.set("view engine", "ejs");
 http.createServer(app).listen(5000);
 
 app.get("/", async (request, response) => {
-    await getTopMovies();
+    //await getTopMovies();
     response.type('.html')
     response.render("index");
 });
 
-app.get("/review", (request, response) => {
+app.get("/submit", (request, response) => {
     response.type('.html')
-    response.render("review");
+    response.render("submit");
+});
+
+app.get("/search", (request, response) => {
+    response.type('.html')
+    response.render("search");
+});
+
+app.post("/movieDetails", async (request, response) => {
+    let firstMovie = await getMovie(request.body.title)
+    if (firstMovie == null) {
+        response.render("index");
+    } else {
+        let foundMovie = {
+            title: firstMovie.title,
+            release_date: firstMovie.release_date,
+            image: config.image_base_url + firstMovie.poster_path,
+            synopsis: firstMovie.overview
+        }
+        response.type('.html');
+        response.render("details", foundMovie);
+    }
 });
 
 // app.post("") {

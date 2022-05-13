@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title>Movie Details</title>
+	<style>
+        h2 {background-color: darkred; color: yellow}
+        html {background-color: darkred;}
+        fieldset {
+            background-color: burlywood;
+            border-color: black;
+            opacity: 80%;
+            padding-top: 0px;
+            width: fit-content;
+            margin: auto;
+            font-size: 1.25rem;
+        }
+		hr {border-color: brown;}
+		h1, #home {text-align: center;}
+		a:link {color: yellow;}
+		a:visited {color: darkorange;}
+		img {float: right;}
+		#summary {
+			inline-size: 600px;
+			overflow-wrap: break-word
+		}
+    </style>
+</head>
+
+<body>
+	<fieldset>
+		<legend><h2>&nbsp;Movie Details&nbsp;</h2></legend>
+		<strong><h1><%- title %></h1></strong><br>
+		<strong>Release Date: </strong><%- release_date %>
+		<img src=<%- image %> height="300px"><br><br>
+		<strong>Synopsis </strong><div id="summary"><%- synopsis %></div>
+	</fieldset><br><hr>
+    <div id="home"><a href="/">HOME</a></div>
+</body>
+
+</html>

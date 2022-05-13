@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title>Search by Title</title>
+	<style>
+        h2 {background-color: darkred; color: yellow}
+        html {background-color: darkred;}
+        fieldset {
+            background-color: burlywood;
+            border-color: black;
+            opacity: 80%;
+            padding-top: 0px;
+            width: fit-content;
+            margin: auto;
+            font-size: 1.25rem;
+        }
+		#score {width: 1.5rem;}
+		hr {border-color: brown;}
+		#home {text-align: center;}
+		a:link {color: yellow;}
+		a:visited {color: darkorange;}
+    </style>
+</head>
+
+<body>
+	<form action="/movieDetails" method="post">
+		<fieldset>
+			<legend><h2>&nbsp;Search by Title&nbsp;</h2></legend>
+			<label><strong>Title:</strong> <input type="text" name="title"></label>
+           <br><br>
+			<input type="reset" />
+			<input type="submit" value="Find Movie"/>
+		</fieldset>
+
+		<br>
+
+	</form>
+    
+    <hr>
+    <div id="home"><a href="/">HOME</a></div>
+</body>
+
+</html>
