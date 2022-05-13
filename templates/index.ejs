@@ -5,30 +5,39 @@
 	<meta charset="utf-8" />
 	<title>Kino King</title>
     <style>
-        h1 {text-align: center; color: yellow;}
+        html {text-align: center;}
+        h1 {font-size: 50px; line-height: 0px;}
+        h1,h4 {font-family: 'Pathway Gothic One', sans-serif; color: yellow;}
         h2 {background-color: darkred; color: yellow}
         html {background-color: darkred;}
-        fieldset {background-color: burlywood; border-color: black; opacity: 80%;}
+        fieldset {
+            background-color: burlywood;
+            border-color: black;
+            opacity: 80%;
+            padding-top: 0px;
+            width: fit-content;
+            margin: auto;
+            font-size: 1.25rem;
+        }
     </style>
 </head>
 
 <body>
     <h1>Kino King</h1>
-
+    <h4>The true arbiters of cinema!</h3>
     <fieldset>
-        <legend><h2>My Reviews</h2></legend>
-        <ul>
-            <li>To make a review: <a href="/review">Post Review</a></li>
-            <li>To delete a review: <a href="/delete">Delete Review</a></li>
+        <legend><h2>&nbsp;My Reviews&nbsp;</h2></legend>
+        <strong>To leave a review:</strong> <a href="/review">Submit Review</a><br>
+        <strong>To delete a review:</strong> <a href="/delete">Delete Review</a>
         </ul>
     </fieldset>
     <fieldset>
-        <legend><h2>Review Database</h2></legend>
-        <ul>
-            <li>To find a review: <a href="/movie">Search Reviews by Film</a></li>
-            <li>To search top movies: <a href="/topMovies">Films by Score</a></li>
-        </ul>
+        <legend><h2>&nbsp;Review Database&nbsp;</h2></legend>
+        <strong>To find a review:</strong> <a href="/movie">Search Reviews by Film</a><br>
+        <strong>To see top movies:</strong> <a href="/topMovies">Films by Score</a>
 </fieldset>
+<br>
+&copy; 2022 Kino King | All rights reserved.
 </body>
 
 </html>
