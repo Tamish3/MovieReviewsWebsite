@@ -50,18 +50,6 @@ async function getMovie(title) {
     return data
 }
 
-async function getMovie(title) {
-    let data = []
-    try {
-        const response = await axios.get(`${config.api_base_url}search/movie?api_key=${config.api_key}&query=${title}&page=1`)
-        const responseData = await response.data
-        data = responseData?.results
-    } catch (error) {
-        console.log(error);
-    }
-    return data[0]
-}
-
 let app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -113,6 +101,8 @@ app.post("/review", async (request, response) => {
             while(counter < 3) {
                 if(data[counter] == null && counter == 0) {
                     message += "No close matches found."
+                    console.log("hi2")
+                    break
                 } else if(data[counter] != null && counter == 0){ 
                     message += "Try one of these close matches\n\n"
                     message += ("\n" + (counter+1).toString() + ". " + data[counter].title);
@@ -124,6 +114,8 @@ app.post("/review", async (request, response) => {
                 counter +=1
             }
             alert("Title must be an exact!\n"  + message)
+            response.type('.html')
+            response.render("submit_review");
         }
     } catch (e) {
         console.error(e);
@@ -148,6 +140,7 @@ app.get("/search", (request, response) => {
 
 app.post("/movieDetails", async (request, response) => {
     let firstMovie = await getMovie(request.body.title)
+    firstMovie = firstMovie[0]
     if (firstMovie == null) {
         response.render("index");
     } else {
@@ -165,7 +158,6 @@ app.post("/movieDetails", async (request, response) => {
 app.get("/topMovies", async (request, response) => {
     response.type('.html')
     let topMovies = await getTopMovies();
-    console.log(topMovies);
     let movieTable = `<table border="1">
     <tr>
         <th>Title</th>
