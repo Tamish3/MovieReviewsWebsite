@@ -17,6 +17,7 @@
             font-size: 1.25rem;
         }
 		#score {width: 1.5rem;}
+		#errors {font-size: 15px;}
 		hr {border-color: brown;}
 		#home {text-align: center;}
 		a:link {color: yellow;}
@@ -28,11 +29,12 @@
 	<form action="/review" method="post" onsubmit="return confirm('Are you sure you want to submit your review?')">
 		<fieldset>
 			<legend><h2>&nbsp;Submit Review&nbsp;</h2></legend>
-			<label><strong>Reviewer Name:</strong> <input type="text" name="name"/></label><br>
-			<label><strong>Film Title:</strong> <input type="text" name="title"></label>
-            <label><strong>Score:</strong> <input id="score" type="text" name="score"/></label><br><br>
+			<label><strong>Reviewer Name:</strong> <input type="text" name="name" required value=<%- name %> ></label><br>
+			<label><strong>Film Title:</strong> <input type="text" name="title" required value=<%- title %> ></label>
+            <label><strong>Score:</strong> <input id="score" type="number" min="1" max="10" step="any" name="score" required value=<%- score %> ></label><br><br>
+			<div id="errors"><%- errors %></div>
 			<label><strong>Review</strong></label><br>
-            <textarea rows="5" cols="80" name="review"></textarea><br><br>
+            <textarea rows="5" cols="80" name="review"><%- textarea %></textarea><br><br>
 			<input type="reset" />
 			<input type="submit" value="Submit Review"/>
 		</fieldset>

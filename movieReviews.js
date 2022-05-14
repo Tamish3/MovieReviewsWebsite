@@ -65,11 +65,11 @@ app.get("/", async (request, response) => {
 
 app.get("/submit", (request, response) => {
     response.type('.html')
-    response.render("submit_review");
+    let variables = {errors: "", name: "", title: "", score: "", textarea: ""};
+    response.render("submit_review", variables);
 });
 
 app.post("/review", async (request, response) => {
-
     try {
         await client.connect();
         const data = await getMovie(request.body.title)
@@ -101,21 +101,20 @@ app.post("/review", async (request, response) => {
             while(counter < 3) {
                 if(data[counter] == null && counter == 0) {
                     message += "No close matches found."
-                    console.log("hi2")
                     break
                 } else if(data[counter] != null && counter == 0){ 
-                    message += "Try one of these close matches\n\n"
-                    message += ("\n" + (counter+1).toString() + ". " + data[counter].title);
+                    message += "Try one of these close matches\n"
+                    message += ("<br>" + (counter+1).toString() + ". " + data[counter].title);
                 } else if(data[counter] != null) {
-                    message += ("\n" + (counter+1).toString() + ". " + data[counter].title);
+                    message += ("<br>" + (counter+1).toString() + ". " + data[counter].title);
                 } else {
                     break
                 }
                 counter +=1
             }
-            alert("Title must be an exact!\n"  + message)
+            let variables = {errors: "Title must be an exact!<br>"  + message + "<br><br>", name: request.body.name, title: request.body.title, score: request.body.score, textarea: request.body.review};
             response.type('.html')
-            response.render("submit_review");
+            response.render("submit_review", variables);
         }
     } catch (e) {
         console.error(e);
