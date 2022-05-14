@@ -142,7 +142,6 @@ app.post("/findReview", async (request, response) => {
             table += "<tr><th>Name</th>";
             table += "<th>Review</th>";
             table += "<th>Rating</th></tr>";
-            console.log(arr)
             arr.forEach(element => {
                 table += ("<tr><td>" + element.reviewerName + "</td><td>" + element.review + "</td><td>" + element.score + "</td></tr>");
             });
@@ -169,14 +168,14 @@ app.post("/findReview", async (request, response) => {
 
 app.get("/search", (request, response) => {
     response.type('.html')
-    response.render("movie_db_search");
+    response.render("movie_db_search", {errors: ""});
 });
 
 app.post("/movieDetails", async (request, response) => {
     let firstMovie = await getMovie(request.body.title)
     firstMovie = firstMovie[0]
     if (firstMovie == null) {
-        response.render("index");
+        response.render("movie_db_search", {errors: "Movie not found!"});
     } else {
         let foundMovie = {
             title: firstMovie.title,
