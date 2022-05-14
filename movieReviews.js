@@ -128,8 +128,43 @@ app.get("/reviews", (request, response) => {
     response.render("movie_review_search");
 });
 
-app.post("/reviews", (request, response) => {
-    //TODO
+app.post("/findReview", async (request, response) => {
+    try {
+        await client.connect();
+        let filter = {filmTitle : request.body.title};
+        let result = await client.db(databaseName).collection(collectionName).find(filter);
+        let arr = await result.toArray();
+        
+        let table = "";
+
+        if(arr.length != 0) {
+            table += "<table border='1'>"
+            table += "<tr><th>Name</th>";
+            table += "<th>Review</th>";
+            table += "<th>Rating</th></tr>";
+            console.log(arr)
+            arr.forEach(element => {
+                table += ("<tr><td>" + element.reviewerName + "</td><td>" + element.review + "</td><td>" + element.score + "</td></tr>");
+            });
+            
+            
+            table += "</table>"
+           
+        } else {
+            table += "No reviews for this movie found";
+        }
+        variables = {
+            title: request.body.title,
+            table: table
+        }
+        response.type('.html');
+        response.render("movie_reviews", variables);
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+
 });
 
 app.get("/search", (request, response) => {
