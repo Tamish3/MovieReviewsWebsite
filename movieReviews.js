@@ -77,53 +77,7 @@ app.get("/", async (request, response) => {
 
 app.get("/submit", (request, response) => {
     response.type('.html')
-    response.render("submit");
-});
-
-app.get("/search", (request, response) => {
-    response.type('.html')
-    response.render("search");
-});
-
-app.post("/movieDetails", async (request, response) => {
-    let firstMovie = await getMovie(request.body.title)
-    if (firstMovie == null) {
-        response.render("index");
-    } else {
-        let foundMovie = {
-            title: firstMovie.title,
-            release_date: firstMovie.release_date,
-            image: config.image_base_url + firstMovie.poster_path,
-            synopsis: firstMovie.overview
-        }
-        response.type('.html');
-        response.render("details", foundMovie);
-    }
-});
-
-app.get("/topMovies", async (request, response) => {
-    response.type('.html')
-    let topMovies = await getTopMovies();
-    console.log(topMovies);
-    let movieTable = `<table border="1">
-    <tr>
-        <th>Title</th>
-        <th>Release Date</th>
-        <th>Score</th>
-    </tr>`;
-
-    topMovies.forEach(movie => movieTable +=
-        `<tr>
-            <td>${movie.title}</td>
-            <td>${movie.release_date}</td>
-            <td>${movie.vote_average}</td>
-        </tr>`);
-    movieTable += '</table>';
-
-    let topList = {
-        movieTable: movieTable
-    }
-    response.render("topMovies", topList);
+    response.render("submit_review");
 });
 
 app.post("/review", async (request, response) => {
@@ -152,7 +106,7 @@ app.post("/review", async (request, response) => {
                 count: count
             }
             response.type('.html')
-            response.render("submission", variables);
+            response.render("submit_confirm", variables);
         } else {
             let counter = 0;
             let message = ""
@@ -178,17 +132,57 @@ app.post("/review", async (request, response) => {
     }
 });
 
-app.get("/findMovie", (request, response) => {
+app.get("/reviews", (request, response) => {
     response.type('.html');
-    response.render("movie");
+    response.render("movie_review_search");
 });
 
-// app.post("") {
-//     try {
+app.post("/reviews", (request, response) => {
+    //TODO
+});
 
-//     } catch {
+app.get("/search", (request, response) => {
+    response.type('.html')
+    response.render("movie_db_search");
+});
 
-//     } finally {
-//         client.close()
-//     }
-// }
+app.post("/movieDetails", async (request, response) => {
+    let firstMovie = await getMovie(request.body.title)
+    if (firstMovie == null) {
+        response.render("index");
+    } else {
+        let foundMovie = {
+            title: firstMovie.title,
+            release_date: firstMovie.release_date,
+            image: config.image_base_url + firstMovie.poster_path,
+            synopsis: firstMovie.overview
+        }
+        response.type('.html');
+        response.render("movie_db_details", foundMovie);
+    }
+});
+
+app.get("/topMovies", async (request, response) => {
+    response.type('.html')
+    let topMovies = await getTopMovies();
+    console.log(topMovies);
+    let movieTable = `<table border="1">
+    <tr>
+        <th>Title</th>
+        <th>Release Date</th>
+        <th>Score</th>
+    </tr>`;
+
+    topMovies.forEach(movie => movieTable +=
+        `<tr>
+            <td>${movie.title}</td>
+            <td>${movie.release_date}</td>
+            <td>${movie.vote_average}</td>
+        </tr>`);
+    movieTable += '</table>';
+
+    let topList = {
+        movieTable: movieTable
+    }
+    response.render("topMovies", topList);
+});
