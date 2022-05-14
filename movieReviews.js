@@ -1,6 +1,7 @@
 let http = require("http");
 let path = require("path");
 let express = require("express");
+let alert = require('alert'); 
 const fs = require("fs");
 const bodyParser = require("body-parser");
 const { response } = require("express");
@@ -12,7 +13,7 @@ const config = {
     image_base_url: 'https://image.tmdb.org/t/p/w1280'
 }
 
-require("dotenv").config({ path: path.resolve(__dirname, 'credentialsDontPost/.env') })  
+require("dotenv").config({ path: path.resolve(__dirname, 'credentials/.env') })
 
 const userName = process.env.MONGO_DB_USERNAME;
 const password = process.env.MONGO_DB_PASSWORD;
@@ -34,7 +35,18 @@ async function getTopMovies(page = 1) {
     } catch (error) {
         console.log(error);
     }
-    console.log(data)
+    return data
+}
+
+async function getMovie(title) {
+    let data = []
+    try {
+        const response = await axios.get(`${config.api_base_url}search/movie?api_key=${config.api_key}&query=${title}&page=1`)
+        const responseData = await response.data
+        data = responseData?.results
+    } catch (error) {
+        console.log(error);
+    }
     return data
 }
 
@@ -114,6 +126,63 @@ app.get("/topMovies", async (request, response) => {
     response.render("topMovies", topList);
 });
 
+app.post("/review", async (request, response) => {
+
+    try {
+        await client.connect();
+        const data = await getMovie(request.body.title)
+        if(data[0]!=null && data[0].title == request.body.title) {
+            let review = {reviewerName: request.body.name,
+                filmTitle: request.body.title,
+                score: request.body.score,
+                review: request.body.review
+            };
+            await client.db(databaseName).collection(collectionName).insertOne(review);
+            count = await client.db(databaseName).collection(collectionName).countDocuments();
+            if(count %10==1) {
+                count = count.toString() + "st"
+            } else if(count %10==2) {
+                count = count.toString() + "nd"
+            } else if (count %10==3) {
+                count = count.toString() + "rd"
+            } else {
+                count = count.toString() + "th"
+            }
+            variables = {
+                count: count
+            }
+            response.type('.html')
+            response.render("submission", variables);
+        } else {
+            let counter = 0;
+            let message = ""
+            while(counter < 3) {
+                if(data[counter] == null && counter == 0) {
+                    message += "No close matches found."
+                } else if(data[counter] != null && counter == 0){ 
+                    message += "Try one of these close matches\n\n"
+                    message += ("\n" + (counter+1).toString() + ". " + data[counter].title);
+                } else if(data[counter] != null) {
+                    message += ("\n" + (counter+1).toString() + ". " + data[counter].title);
+                } else {
+                    break
+                }
+                counter +=1
+            }
+            alert("Title must be an exact!\n"  + message)
+        }
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+});
+
+app.get("/findMovie", (request, response) => {
+    response.type('.html');
+    response.render("movie");
+});
+
 // app.post("") {
 //     try {
 
@@ -123,4 +192,3 @@ app.get("/topMovies", async (request, response) => {
 //         client.close()
 //     }
 // }
-
