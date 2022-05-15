@@ -11,3 +11,5 @@ and allow users to post their own reviews and ratings.
 API link: https://developers.themoviedb.org/3/getting-started/introduction
 
 Youtube Link: https://youtu.be/qWqV5EFGUJ4
+
+Deployed Website: https://movie-review-final-proj.herokuapp.com/
