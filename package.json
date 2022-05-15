@@ -20,3 +20,6 @@
     "license": "ISC",
     "description": ""
 }
+"scripts": {
+  "start": "node movieReviews.js"
+}
