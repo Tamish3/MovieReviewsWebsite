@@ -10,4 +10,4 @@ and allow users to post their own reviews and ratings.
 
 API link: https://developers.themoviedb.org/3/getting-started/introduction
 
-Youtube Link: TODO
+Youtube Link: https://youtu.be/qWqV5EFGUJ4
