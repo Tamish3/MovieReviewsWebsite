@@ -56,7 +56,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.set("views", path.resolve(__dirname, "templates"));
 app.set("view engine", "ejs");
 
-http.createServer(app).listen(process.env.PORT || 5000);
+http.createServer(app).listen(process.env.PORT);
 
 app.get("/", async (request, response) => {
     response.type('.html')
